@@ -6,7 +6,7 @@ m = 1;
 w = 1;
 o = 1;
 y = 1;
-Mutation = input('Which mutation? ','s');
+Mutation = input('Title of your figure: ','s');
 
 for i=1:length(Data)
 timelist(j) = Data(i,1);
