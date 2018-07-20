@@ -2,22 +2,20 @@
 %%respect to the solutions
 hold on
 titleIV = input('What is the title of your IV? ','s');
-for u = 1:3
-clearvars -except ND96 && Na && CO2 && u && titleIV && g
+for u = 1:2
+clearvars -except ND96 && Na && CO2 && u && titleIV && g && ND96Data
+ND96Data = table2array(ND96);
 if u == 1
-    IVData = table2array(ND96);
-    plot(IVData(:,1)*10^3,IVData(:,2)*10^6,'-g^')
-elseif u == 2
     IVData = table2array(CO2);
-    plot(IVData(:,1)*10^3,IVData(:,2)*10^6,'-rp')
-elseif u == 3
+    plot(IVData(:,1)*10^3,(IVData(:,2)-ND96Data(:,2))*10^6,'-rp')
+elseif u == 2
     IVData = table2array(Na);
-    plot(IVData(:,1)*10^3,IVData(:,2)*10^6,'-bs')
+    plot(IVData(:,1)*10^3,(IVData(:,2)-ND96Data(:,2))*10^6,'-bs')
 end
 title(titleIV);
 xlabel('mV')
 ylabel('I(\mu A)')
-legend('ND96','5% CO2','0 Na')
+legend('5% CO2','0 Na')
 
 V1 = -0.02;
 V2 = -0.06;
@@ -46,11 +44,9 @@ for m = 1:length(IVData)
     end
 end
 
-if u == 1
-    disp('ND96')
-elseif u ==2
+if u ==1
     disp('5% CO2')
-elseif u ==3
+elseif u ==2
     disp('0 Na')
 end
 
