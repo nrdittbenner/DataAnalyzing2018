@@ -52,10 +52,43 @@ end
 
 p1 = polyfit(xval1,yval1,1);
 p2 = polyfit(xval2,yval2,1);
-g(u,:) = [p1(1) p2(1)];
+g(u+1,:) = [p1(1) p2(1)];
 
 disp(['Conductance -20mV-20mV (Siemens): ' num2str(p1(1))])
 disp(['Conductance -60mV-0mV (Siemens): ' num2str(p2(1))])
 
  
 end
+IVData = table2array(ND96);
+V1 = -0.02;
+V2 = -0.06;
+j = 1;
+n = 1;
+for i = 1:length(IVData)
+    if IVData(i,1) == V1
+        xval1(j) = IVData(i,1);
+        yval1(j) = IVData(i,2);
+        j = j+1;
+        V1 = V1+0.02;
+    end
+    if V1 > 0.02
+        break;
+    end
+end
+for m = 1:length(IVData)
+    if IVData(m,1) >= V2 || IVData(m,1) > V2-0.001
+        xval2(n) = IVData(m,1);
+        yval2(n) = IVData(m,2);
+        n = n+1;
+        V2 = V2+0.02;
+    end
+    if V2 > 0.001
+        break;
+    end
+end
+
+disp('ND96')
+
+p1 = polyfit(xval1,yval1,1);
+p2 = polyfit(xval2,yval2,1);
+g(1,:) = [p1(1) p2(1)];
